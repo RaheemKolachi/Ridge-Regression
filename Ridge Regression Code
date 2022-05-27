@@ -1,0 +1,18 @@
+from sklearn.linear_model import Ridge  // importing the Ridge Regression Module
+from sklearn.datasets import load_boston           // importing data set from sklearn
+from sklearn.model_selection import train_test_split   //for splitting the data 
+from sklearn.metrics import r2_score            // to find accurcy of model
+import pandas as pd
+import matplotlib.pyplot as plt
+data1=load_boston()
+data=pd.DataFrame(data1["data"],columns=data1["feature_names"])   // data featuring 
+data["Traget"]=pd.Series(data1["target"])
+x=data.iloc[:,:-1]
+y=data.iloc[:,-1:]
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.2)   
+plt.plot(xtrain,ytrain,"ro"); 
+rd=Ridge()
+rd.fit(xtrain,ytrain)
+pred=rd.predict(xtest)
+plt.plot(xtest,ytest,"ro",xtest,pred,"--y")
+r2_score(ytest,pred);
